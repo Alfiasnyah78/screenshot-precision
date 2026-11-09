@@ -1,5 +1,13 @@
 {
   "version": "7",
   "dialect": "postgresql",
-  "entries": []
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1794185778710,
+      "tag": "0000_blackbeard_core",
+      "breakpoints": true
+    }
+  ]
 }

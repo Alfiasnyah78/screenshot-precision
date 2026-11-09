@@ -14,16 +14,202 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      app_settings: {
+        Row: {
+          alert_level_threshold: number
+          correlation_window_minutes: number
+          id: number
+          notify_email: string | null
+          notify_webhook_url: string | null
+          updated_at: string
+        }
+        Insert: {
+          alert_level_threshold?: number
+          correlation_window_minutes?: number
+          id?: number
+          notify_email?: string | null
+          notify_webhook_url?: string | null
+          updated_at?: string
+        }
+        Update: {
+          alert_level_threshold?: number
+          correlation_window_minutes?: number
+          id?: number
+          notify_email?: string | null
+          notify_webhook_url?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      audit_logs: {
+        Row: {
+          action: string
+          created_at: string
+          details: Json
+          id: string
+          target: string | null
+          user_email: string | null
+          user_id: string
+        }
+        Insert: {
+          action: string
+          created_at?: string
+          details?: Json
+          id?: string
+          target?: string | null
+          user_email?: string | null
+          user_id: string
+        }
+        Update: {
+          action?: string
+          created_at?: string
+          details?: Json
+          id?: string
+          target?: string | null
+          user_email?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      blackfog_events: {
+        Row: {
+          action: string
+          agent_id: string | null
+          category: string | null
+          created_at: string
+          dest_country: string | null
+          dest_ip: string | null
+          endpoint: string
+          id: string
+          lat: number | null
+          lon: number | null
+          mitre_technique: string | null
+          occurred_at: string
+          process_name: string | null
+          raw: Json
+        }
+        Insert: {
+          action?: string
+          agent_id?: string | null
+          category?: string | null
+          created_at?: string
+          dest_country?: string | null
+          dest_ip?: string | null
+          endpoint: string
+          id?: string
+          lat?: number | null
+          lon?: number | null
+          mitre_technique?: string | null
+          occurred_at?: string
+          process_name?: string | null
+          raw?: Json
+        }
+        Update: {
+          action?: string
+          agent_id?: string | null
+          category?: string | null
+          created_at?: string
+          dest_country?: string | null
+          dest_ip?: string | null
+          endpoint?: string
+          id?: string
+          lat?: number | null
+          lon?: number | null
+          mitre_technique?: string | null
+          occurred_at?: string
+          process_name?: string | null
+          raw?: Json
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          display_name: string | null
+          email: string | null
+          id: string
+        }
+        Insert: {
+          created_at?: string
+          display_name?: string | null
+          email?: string | null
+          id: string
+        }
+        Update: {
+          created_at?: string
+          display_name?: string | null
+          email?: string | null
+          id?: string
+        }
+        Relationships: []
+      }
+      response_actions: {
+        Row: {
+          action: string
+          agent_id: string
+          created_at: string
+          id: string
+          result: Json
+          status: string
+          target: string | null
+          user_id: string
+        }
+        Insert: {
+          action: string
+          agent_id: string
+          created_at?: string
+          id?: string
+          result?: Json
+          status: string
+          target?: string | null
+          user_id: string
+        }
+        Update: {
+          action?: string
+          agent_id?: string
+          created_at?: string
+          id?: string
+          result?: Json
+          status?: string
+          target?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      can_respond: { Args: { _user_id: string }; Returns: boolean }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "analyst" | "viewer"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +336,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "analyst", "viewer"],
+    },
   },
 } as const
