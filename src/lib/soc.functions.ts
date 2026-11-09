@@ -152,10 +152,10 @@ export const listAlerts = createServerFn({ method: "GET" })
         .select("endpoint")
         .gte("occurred_at", since)
         .limit(5000);
-      const hosts = new Set((events ?? []).map((e) => e.endpoint.toLowerCase().split(".")[0]));
+      const hosts = new Set((events ?? []).map((e) => e.endpoint.toLowerCase().split(".")[0] ?? ""));
       return {
         error: null,
-        alerts: alerts.map((a) => ({ ...a, hasBlackFog: hosts.has(a.agentName.toLowerCase().split(".")[0]) })),
+        alerts: alerts.map((a) => ({ ...a, hasBlackFog: hosts.has(a.agentName.toLowerCase().split(".")[0] ?? "") })),
       };
     } catch (e) {
       return { error: e instanceof WazuhConfigError ? "not_configured" : errMsg(e), alerts: [] };
@@ -184,13 +184,13 @@ export const listAgents = createServerFn({ method: "GET" })
         .limit(2000);
       const bfVersion = new Map<string, string>();
       for (const e of events ?? []) {
-        const k = e.endpoint.toLowerCase().split(".")[0];
+        const k = e.endpoint.toLowerCase().split(".")[0] ?? "";
         const v = (e.raw as any)?.agent_version;
         if (v && !bfVersion.has(k)) bfVersion.set(k, String(v));
       }
       return {
         error: null,
-        agents: agents.map((a: any) => ({ ...a, blackfogVersion: bfVersion.get(a.name.toLowerCase().split(".")[0]) ?? null })),
+        agents: agents.map((a: any) => ({ ...a, blackfogVersion: bfVersion.get(a.name.toLowerCase().split(".")[0] ?? "") ?? null })),
       };
     } catch (e) {
       return { error: e instanceof WazuhConfigError ? "not_configured" : errMsg(e), agents: [] };

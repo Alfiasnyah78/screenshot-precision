@@ -10,6 +10,14 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedAlertsRouteImport } from './routes/_authenticated/alerts'
+import { Route as AuthenticatedBlackfogRouteImport } from './routes/_authenticated/blackfog'
+import { Route as AuthenticatedCorrelationRouteImport } from './routes/_authenticated/correlation'
+import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedEndpointsRouteImport } from './routes/_authenticated/endpoints'
+import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
 import { Route as ApiPublicHealthRouteImport } from './routes/api/public/health'
 import { Route as ApiPublicBlackfogIngestRouteImport } from './routes/api/public/blackfog/ingest'
 
@@ -17,6 +25,46 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedAlertsRoute = AuthenticatedAlertsRouteImport.update({
+  id: '/alerts',
+  path: '/alerts',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedBlackfogRoute = AuthenticatedBlackfogRouteImport.update({
+  id: '/blackfog',
+  path: '/blackfog',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedCorrelationRoute =
+  AuthenticatedCorrelationRouteImport.update({
+    id: '/correlation',
+    path: '/correlation',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedEndpointsRoute = AuthenticatedEndpointsRouteImport.update({
+  id: '/endpoints',
+  path: '/endpoints',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const ApiPublicHealthRoute = ApiPublicHealthRouteImport.update({
   id: '/api/public/health',
@@ -31,30 +79,86 @@ const ApiPublicBlackfogIngestRoute = ApiPublicBlackfogIngestRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/alerts': typeof AuthenticatedAlertsRoute
+  '/blackfog': typeof AuthenticatedBlackfogRoute
+  '/correlation': typeof AuthenticatedCorrelationRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/endpoints': typeof AuthenticatedEndpointsRoute
+  '/settings': typeof AuthenticatedSettingsRoute
   '/api/public/health': typeof ApiPublicHealthRoute
   '/api/public/blackfog/ingest': typeof ApiPublicBlackfogIngestRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/alerts': typeof AuthenticatedAlertsRoute
+  '/blackfog': typeof AuthenticatedBlackfogRoute
+  '/correlation': typeof AuthenticatedCorrelationRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/endpoints': typeof AuthenticatedEndpointsRoute
+  '/settings': typeof AuthenticatedSettingsRoute
   '/api/public/health': typeof ApiPublicHealthRoute
   '/api/public/blackfog/ingest': typeof ApiPublicBlackfogIngestRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/_authenticated/alerts': typeof AuthenticatedAlertsRoute
+  '/_authenticated/blackfog': typeof AuthenticatedBlackfogRoute
+  '/_authenticated/correlation': typeof AuthenticatedCorrelationRoute
+  '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/endpoints': typeof AuthenticatedEndpointsRoute
+  '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/api/public/health': typeof ApiPublicHealthRoute
   '/api/public/blackfog/ingest': typeof ApiPublicBlackfogIngestRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/api/public/health' | '/api/public/blackfog/ingest'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/alerts'
+    | '/blackfog'
+    | '/correlation'
+    | '/dashboard'
+    | '/endpoints'
+    | '/settings'
+    | '/api/public/health'
+    | '/api/public/blackfog/ingest'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/api/public/health' | '/api/public/blackfog/ingest'
-  id: '__root__' | '/' | '/api/public/health' | '/api/public/blackfog/ingest'
+  to:
+    | '/'
+    | '/auth'
+    | '/alerts'
+    | '/blackfog'
+    | '/correlation'
+    | '/dashboard'
+    | '/endpoints'
+    | '/settings'
+    | '/api/public/health'
+    | '/api/public/blackfog/ingest'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/auth'
+    | '/_authenticated/alerts'
+    | '/_authenticated/blackfog'
+    | '/_authenticated/correlation'
+    | '/_authenticated/dashboard'
+    | '/_authenticated/endpoints'
+    | '/_authenticated/settings'
+    | '/api/public/health'
+    | '/api/public/blackfog/ingest'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
   ApiPublicHealthRoute: typeof ApiPublicHealthRoute
   ApiPublicBlackfogIngestRoute: typeof ApiPublicBlackfogIngestRoute
 }
@@ -67,6 +171,62 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/alerts': {
+      id: '/_authenticated/alerts'
+      path: '/alerts'
+      fullPath: '/alerts'
+      preLoaderRoute: typeof AuthenticatedAlertsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/blackfog': {
+      id: '/_authenticated/blackfog'
+      path: '/blackfog'
+      fullPath: '/blackfog'
+      preLoaderRoute: typeof AuthenticatedBlackfogRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/correlation': {
+      id: '/_authenticated/correlation'
+      path: '/correlation'
+      fullPath: '/correlation'
+      preLoaderRoute: typeof AuthenticatedCorrelationRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/dashboard': {
+      id: '/_authenticated/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/endpoints': {
+      id: '/_authenticated/endpoints'
+      path: '/endpoints'
+      fullPath: '/endpoints'
+      preLoaderRoute: typeof AuthenticatedEndpointsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/settings': {
+      id: '/_authenticated/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AuthenticatedSettingsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/api/public/health': {
       id: '/api/public/health'
@@ -85,8 +245,31 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAlertsRoute: typeof AuthenticatedAlertsRoute
+  AuthenticatedBlackfogRoute: typeof AuthenticatedBlackfogRoute
+  AuthenticatedCorrelationRoute: typeof AuthenticatedCorrelationRoute
+  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedEndpointsRoute: typeof AuthenticatedEndpointsRoute
+  AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAlertsRoute: AuthenticatedAlertsRoute,
+  AuthenticatedBlackfogRoute: AuthenticatedBlackfogRoute,
+  AuthenticatedCorrelationRoute: AuthenticatedCorrelationRoute,
+  AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedEndpointsRoute: AuthenticatedEndpointsRoute,
+  AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
   ApiPublicHealthRoute: ApiPublicHealthRoute,
   ApiPublicBlackfogIngestRoute: ApiPublicBlackfogIngestRoute,
 }

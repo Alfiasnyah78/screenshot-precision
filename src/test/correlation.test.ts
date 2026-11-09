@@ -13,7 +13,7 @@ describe("suspicious correlation rule", () => {
   it("flags a level 10 alert 4 minutes after a BlackFog block on the same host", () => {
     const r = findSuspiciousCorrelations([bf("2026-01-01T10:00:00Z")], [wz("2026-01-01T10:04:00Z", 10)], opts);
     expect(r).toHaveLength(1);
-    expect(r[0].gapSeconds).toBe(240);
+    expect(r[0]?.gapSeconds).toBe(240);
   });
   it("ignores alerts below level 10", () => {
     expect(findSuspiciousCorrelations([bf("2026-01-01T10:00:00Z")], [wz("2026-01-01T10:01:00Z", 9)], opts)).toHaveLength(0);

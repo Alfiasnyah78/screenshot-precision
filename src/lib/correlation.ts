@@ -32,7 +32,7 @@ export type SuspiciousCorrelation = {
 };
 
 export function normalizeHost(name: string | null | undefined): string {
-  return (name ?? "").trim().toLowerCase().split(".")[0];
+  return (name ?? "").trim().toLowerCase().split(".")[0] ?? "";
 }
 
 /**

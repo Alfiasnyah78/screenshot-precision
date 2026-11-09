@@ -66,7 +66,7 @@ export function download(filename: string, content: string, type: string) {
 
 export function toCsv(rows: Record<string, unknown>[]) {
   if (!rows.length) return "";
-  const cols = Object.keys(rows[0]);
+  const cols = Object.keys(rows[0] ?? {});
   const esc = (v: unknown) => {
     const s = v == null ? "" : typeof v === "object" ? JSON.stringify(v) : String(v);
     return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
